@@ -1,12 +1,12 @@
 class Solution {
     public int[] missingRolls(int[] rolls, int mean, int n) {
         int tut = n + rolls.length;
-        int Lhs = tut * mean;
+        int lhs = tut * mean;
         int sum = 0;
         for(int i:rolls){
             sum+=i;
         }
-        int rhs = Lhs - sum;
+        int rhs = lhs - sum;
         if(rhs<n || rhs>(6*n)){
             return new int[0];
         }
