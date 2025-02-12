@@ -1,29 +1,24 @@
 class Solution {
 public:
-    int sumOfDigits(int num) {
-        int sum = 0;
-        while (num > 0) {
-            sum += num % 10;
-            num /= 10;
-        }
-        return sum;
-    }
-    
+    int func(int i) {
+        int s=0;
+        while(i>0) {
+            s+=i%10;
+            i/=10;
+        }return s;
+    }    
     int maximumSum(vector<int>& nums) {
-        sort(nums.begin(), nums.end(), [this](int a, int b) {
-            int sumA = sumOfDigits(a), sumB = sumOfDigits(b);
-            if (sumA == sumB) return a > b;
-            return sumA < sumB;
-        });
-        
-        int maxSum = -1, n = nums.size();
-        
-        for (int i = 1; i < n; i++) {
-            if (sumOfDigits(nums[i]) == sumOfDigits(nums[i - 1])) {
-                maxSum = max(maxSum, nums[i] + nums[i - 1]);
+        sort(nums.begin(),nums.end(),[this](int a,int b){
+            int sa=func(a),sb=func(b);
+            if (sa==sb)return a>b;
+            return sa<sb;
+        });        
+        int res=-1;      
+        for (int i=1;i<nums.size();i++) {
+            if (func(nums[i])==func(nums[i - 1])) {
+                res=max(res,nums[i]+nums[i - 1]);
             }
-        }
-        
-        return maxSum;
+        }        
+        return res;
     }
 };
