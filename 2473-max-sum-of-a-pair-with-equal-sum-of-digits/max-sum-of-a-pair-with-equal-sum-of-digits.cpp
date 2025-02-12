@@ -16,16 +16,12 @@ public:
             return sumA < sumB;
         });
         
-        int maxSum = -1, l = 0, r = 0, n = nums.size();
+        int maxSum = -1, n = nums.size();
         
-        while (r < n) {
-            while (r < n && sumOfDigits(nums[l]) == sumOfDigits(nums[r])) {
-                if (r > l) {
-                    maxSum = max(maxSum, nums[r] + nums[r - 1]);
-                }
-                r++;
+        for (int i = 1; i < n; i++) {
+            if (sumOfDigits(nums[i]) == sumOfDigits(nums[i - 1])) {
+                maxSum = max(maxSum, nums[i] + nums[i - 1]);
             }
-            l = r;
         }
         
         return maxSum;
