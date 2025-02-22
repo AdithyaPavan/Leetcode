@@ -12,50 +12,27 @@
 class Solution {
 public:
     TreeNode* recoverFromPreorder(string traversal) {
-        stack<TreeNode*> st;
-        int i = 0, n = traversal.size();
-        
-        while (i < n) {
-            int depth = 0;
-            
-            // Count depth by counting dashes '-'
-            while (i < n && traversal[i] == '-') {
-                depth++;
+        vector<TreeNode*> stack;
+        int i = 0;
+        while(i < traversal.length()) {
+            int level = 0, val = 0;
+            while(traversal[i] == '-') {
+                i++;
+                level++;
+            }
+            while(i < traversal.length() && traversal[i] != '-') {
+                val = val*10 + traversal[i] - '0';
                 i++;
             }
-            
-            // Read the number (node value)
-            int value = 0;
-            while (i < n && isdigit(traversal[i])) {
-                value = value * 10 + (traversal[i] - '0');
-                i++;
+
+            TreeNode* node = new TreeNode(val);
+            while(stack.size() > level) stack.pop_back();
+            if(!stack.empty()) {
+                if(!stack.back()->left) stack.back()->left = node;
+                else stack.back()->right = node;
             }
-            
-            TreeNode* node = new TreeNode(value);
-            
-            // If depth is greater than stack size, it means it's a child of the last node in stack
-            while (st.size() > depth) {
-                st.pop();
-            }
-            
-            // Attach node to its parent
-            if (!st.empty()) {
-                if (!st.top()->left) {
-                    st.top()->left = node;
-                } else {
-                    st.top()->right = node;
-                }
-            }
-            
-            // Push the new node onto the stack
-            st.push(node);
+            stack.push_back(node);
         }
-        
-        // Root is at the bottom of the stack
-        while (st.size() > 1) {
-            st.pop();
-        }
-        
-        return st.top();
+        return stack[0];
     }
 };
