@@ -1,8 +1,14 @@
 class Solution {
 public:
-    static bool divideArray(vector<int>& nums) {
-        bitset<501> parity=0;
-        for(int x: nums) parity.flip(x);
-        return (parity.count())?0:1;
+    bool divideArray(vector<int>& nums) {
+       sort(nums.begin(),nums.end());
+       for(int i=0;i<nums.size();i+=2)
+       {
+        if(nums[i]!=nums[i+1])
+        {
+            return false;
+        }
+       }
+       return true;
     }
 };
