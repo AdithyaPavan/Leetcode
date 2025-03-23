@@ -1,41 +1,36 @@
 class Solution {
 public:
     int countPaths(int n, vector<vector<int>>& roads) {
-        vector<vector<pair<int, int>>> graph(n);
-        for (const auto& road : roads) {
-            int u = road[0], v = road[1], time = road[2];
-            graph[u].emplace_back(v, time);
-            graph[v].emplace_back(u, time);
+        vector<vector<pair<int,int>>>adj(n);
+        for(auto it: roads){
+            adj[it[0]].push_back({it[1],it[2]});
+            adj[it[1]].push_back({it[0],it[2]});
         }
-
-        vector<long long> dist(n, LLONG_MAX);
-        vector<int> ways(n, 0);
-
-        dist[0] = 0;
-        ways[0] = 1;
-
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
-        pq.emplace(0, 0);
-
-        const int MOD = 1e9 + 7;
-
-        while (!pq.empty()) {
-            auto [d, node] = pq.top();
+        priority_queue<pair<long long int,int>,vector<pair<long long int,int>>,greater<pair<long long int,int>>>pq;
+        pq.push({0,0});
+        vector<long long int>dist(n,LLONG_MAX);
+        vector< int> ways_to_reach(n,0);
+        ways_to_reach[0]=1;
+        dist[0]=0;
+        int mod=1e9+7;
+        while(!pq.empty()){
+            int node=pq.top().second;
+            auto distance=pq.top().first;
             pq.pop();
-
-            if (d > dist[node]) continue;
-
-            for (const auto& [neighbor, time] : graph[node]) {
-                if (dist[node] + time < dist[neighbor]) {
-                    dist[neighbor] = dist[node] + time;
-                    ways[neighbor] = ways[node];
-                    pq.emplace(dist[neighbor], neighbor);
-                } else if (dist[node] + time == dist[neighbor]) {
-                    ways[neighbor] = (ways[neighbor] + ways[node]) % MOD;
+            for(auto it: adj[node]){
+                int next=it.first;
+                int cost=it.second;
+                if(dist[next]>cost+distance){
+                    ways_to_reach[next]=ways_to_reach[node];
+                    dist[next]=cost+distance;
+                    pq.push({dist[next],next});
+                }
+                else if(dist[next]==cost+distance){
+                    ways_to_reach[next]=(ways_to_reach[next]+ways_to_reach[node])%mod;
                 }
             }
         }
+        return ways_to_reach[n-1];
 
-        return ways[n - 1];
     }
 };
