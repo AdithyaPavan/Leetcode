@@ -1,22 +1,18 @@
 class Solution {
 public:
     int countDays(int days, vector<vector<int>>& meetings) {
-        sort(meetings.begin(), meetings.end());
-
-        vector<vector<int>> mergedMeetings;
-        for (const auto& meeting : meetings) {
-            if (mergedMeetings.empty() || meeting[0] > mergedMeetings.back()[1]) {
-                mergedMeetings.push_back(meeting);
-            } else {
-                mergedMeetings.back()[1] = max(mergedMeetings.back()[1], meeting[1]);
-            }
+        int i,n=meetings.size(),k=0;
+        vector<pair<int,int>>v;
+        for(i=0;i<n;i++){
+            v.push_back({meetings[i][0],meetings[i][1]});
         }
-
-        int meetingDaysCount = 0;
-        for (const auto& m : mergedMeetings) {
-            meetingDaysCount += (m[1] - m[0] + 1);
+        sort(v.begin(),v.end());
+        int ans=0;
+        for(i=0;i<n;i++){
+            ans+=(max(0,v[i].first-k-1));
+            k = max(k,v[i].second);
         }
-
-        return days - meetingDaysCount;
+        ans+=(max(0,days-k));
+        return ans;
     }
 };
