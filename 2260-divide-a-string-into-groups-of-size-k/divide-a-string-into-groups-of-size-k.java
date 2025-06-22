@@ -1,22 +1,13 @@
 class Solution {
     public String[] divideString(String s, int k, char fill) {
-        int n = s.length();
-        int groups = (n + k - 1) / k;
-        String[] result = new String[groups];
-        
-        for (int i = 0; i < groups; i++) {
-            StringBuilder group = new StringBuilder();
-            for (int j = 0; j < k; j++) {
-                int index = i * k + j;
-                if (index < n) {
-                    group.append(s.charAt(index));
-                } else {
-                    group.append(fill); // Padding
-                }
-            }
-            result[i] = group.toString();
+        StringBuilder str = new StringBuilder(s);
+        while(str.length()%k!=0){
+            str.append(fill);
         }
-        
-        return result;
-    }
+        String arr[]=new String[str.length()/k];
+        for(int i=0;i<str.length()/k;i++){
+            arr[i]=str.substring(i*k,(i+1)*k);
+        }
+        return arr;   
+ }
 }
