@@ -1,27 +1,31 @@
 class Solution {
-    public int maxEvents(int[][] event) {
-        Arrays.sort(event,(a,b)->Integer.compare(a[0],b[0]));
-        int day=0;
-        int res=0;
-        int n=event.length;
-        int i=0;
-        PriorityQueue<Integer>pq=new PriorityQueue<>();
-        while(!pq.isEmpty()||i<n){
-            if(pq.isEmpty()){
-                day=event[i][0];
-            }
-            while(i<n && event[i][0]<=day){
-                pq.offer(event[i][1]);
-                i++;
-            }
-            pq.poll();
-            res++;
-            day++;
-            while(!pq.isEmpty() && day>pq.peek()){
-                pq.poll();
+    int search(int[] nextDay, int day) {
+        if (nextDay[day] != day) {
+            nextDay[day] = search(nextDay, nextDay[day]);
+        }
+        return nextDay[day];
+    }
+
+    public int maxEvents(int[][] events) {
+        Arrays.sort(events, (a, b) -> a[1] - b[1]);
+
+        int[] nextDay = new int[events[events.length - 1][1] + 2];
+        for (int d = 0; d < nextDay.length; d++) {
+            nextDay[d] = d;
+        }
+
+        int count = 0;
+        for (int[] evt : events) {
+            int start = evt[0];
+            int end = evt[1];
+            int day = search(nextDay, start);
+            if (day <= end) {
+                count++;
+                nextDay[day] = search(nextDay, day + 1);
             }
         }
-        return res;
 
+        return count;
     }
+
 }
