@@ -18,7 +18,7 @@ class Solution {
             int mid = low + (high - low) / 2;
             if ((long) potions[mid] * strength >= success) {
                 idx = mid;
-                high = mid - 1; // find smaller index
+                high = mid - 1; 
             } else {
                 low = mid + 1;
             }
