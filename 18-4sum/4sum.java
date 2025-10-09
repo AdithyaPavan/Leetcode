@@ -31,10 +31,5 @@ class Solution {
         return ans;
     }
 
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        int[] nums = {1, 0, -1, 0, -2, 2};
-        int target = 0;
-        System.out.println(s.fourSum(nums, target));
-    }
+    
 }
