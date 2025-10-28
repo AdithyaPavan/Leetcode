@@ -5,7 +5,7 @@ class Solution {
 
     public boolean helper(TreeNode node, long mini, long maxi) {
         if (node == null) return true;
-        if (node.val <= mini || node.val >= maxi) return false; // strict check
+        if (node.val <=mini || node.val >=maxi) return false; 
         return helper(node.left, mini, node.val) && helper(node.right, node.val, maxi);
     }
 }
