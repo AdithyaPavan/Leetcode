@@ -10,7 +10,7 @@ class Solution {
             }
             mp.put(nums[i],i);
         }
-        return res;
+        return new int[0];
 
         
     }
