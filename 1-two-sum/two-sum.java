@@ -9,8 +9,8 @@ class Solution {
                 return res;
             }
             mp.put(nums[i],i);
-
-        }return res;
+        }
+        return res;
 
         
     }
